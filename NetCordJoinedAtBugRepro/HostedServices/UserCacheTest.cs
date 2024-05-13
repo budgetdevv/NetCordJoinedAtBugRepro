@@ -18,8 +18,18 @@ namespace NetCordJoinedAtBugRepro.HostedServices
         
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _ = TestLoop();
-            
+            client.GuildCreate += ClientOnGuildCreate;
+
+            async ValueTask ClientOnGuildCreate(GuildCreateEventArgs args)
+            {
+                client.GuildCreate -= ClientOnGuildCreate;
+                
+                // Allow guild cache to be populated.
+                await Task.Yield();
+                
+                _ = TestLoop();
+            }
+
             return Task.CompletedTask;
         }
 
