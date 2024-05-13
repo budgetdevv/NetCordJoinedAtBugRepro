@@ -35,7 +35,7 @@ builder.Services
     .AddGatewayEventHandlers(typeof(Program).Assembly)
     .AddHostedSingletonService<UserCacheTest>()
     .AddOptions<Configuration>()
-    .BindConfiguration(string.Empty);;
+    .BindConfiguration(string.Empty);
 
 var host = builder.Build()
     .AddModules(typeof(Program).Assembly)
