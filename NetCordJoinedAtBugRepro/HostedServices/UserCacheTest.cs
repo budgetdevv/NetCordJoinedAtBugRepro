@@ -43,14 +43,21 @@ namespace NetCordJoinedAtBugRepro.HostedServices
 
                 foreach (var (joinedUserID, joinedUser) in JoinCache)
                 {
-                    if (!guild.Users.TryGetValue(joinedUserID, out var latestUserCache))
+                    string currentText;
+                    
+                    if (guild.Users.TryGetValue(joinedUserID, out var latestUserCache))
                     {
-                        continue;
+                        var discrepancy = latestUserCache.JoinedAt - joinedUser.JoinedAt;
+
+                        currentText = $"{joinedUser.Username} | JoinedAt discrepancy: {discrepancy.Ticks} ticks, {discrepancy.Microseconds} μs\n";
                     }
 
-                    var discrepancy = latestUserCache.JoinedAt - joinedUser.JoinedAt;
-                    
-                    stringBuilder.Append($"{joinedUser.Username} | JoinedAt discrepancy: {discrepancy.Ticks}\n");
+                    else
+                    {
+                        currentText = $"{joinedUser.Username} | User left! Removing...\n";
+                    }
+
+                    stringBuilder.Append(currentText);
                 }
 
                 Print:
