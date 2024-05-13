@@ -11,6 +11,7 @@ namespace NetCordJoinedAtBugRepro.Handlers
     {
         public ValueTask HandleAsync(GuildUser user)
         {
+            Console.WriteLine($"{user.Username} joined the guild!");
             userCacheTest.AddJoiningUser(user);
             return ValueTask.CompletedTask;
         }

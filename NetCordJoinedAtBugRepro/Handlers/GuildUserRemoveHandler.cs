@@ -10,7 +10,9 @@ namespace NetCordJoinedAtBugRepro.Handlers
     {
         public ValueTask HandleAsync(GuildUserRemoveEventArgs args)
         {
-            userCacheTest.RemoveJoiningUser(args.User);
+            var user = args.User;
+            Console.WriteLine($"{user.Username} left the guild!");
+            userCacheTest.RemoveJoiningUser(user);
             return ValueTask.CompletedTask;
         }
     }
