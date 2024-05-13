@@ -1,4 +1,6 @@
-﻿using NetCord;
+﻿using System.Threading.Tasks;
+
+using NetCord;
 using NetCord.Gateway;
 using NetCord.Rest;
 using NetCord.Services.ApplicationCommands;

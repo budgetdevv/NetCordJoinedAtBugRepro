@@ -1,4 +1,7 @@
-﻿using NetCord.Gateway;
+﻿using System;
+using System.Threading.Tasks;
+
+using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
 
 using NetCordJoinedAtBugRepro.HostedServices;
@@ -12,7 +15,7 @@ namespace NetCordJoinedAtBugRepro.Handlers
         {
             var user = args.User;
             Console.WriteLine($"{user.Username} left the guild!");
-            userCacheTest.RemoveJoiningUser(user);
+            userCacheTest.RemoveJoinedUser(user);
             return ValueTask.CompletedTask;
         }
     }

@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Hosting;
 
@@ -33,6 +38,13 @@ namespace NetCordJoinedAtBugRepro.HostedServices
             return Task.CompletedTask;
         }
 
+        public static string CalculateDiscrepancy(GuildUser newUser, GuildUser oldUser)
+        {
+            var discrepancy = newUser.JoinedAt - oldUser.JoinedAt;
+
+            return $"{newUser.Username} | JoinedAt discrepancy: {discrepancy.Ticks} ticks, {discrepancy.Microseconds} μs\n";
+        }
+
         private async Task TestLoop()
         {
             var stringBuilder = new StringBuilder();
@@ -57,9 +69,7 @@ namespace NetCordJoinedAtBugRepro.HostedServices
                     
                     if (guild.Users.TryGetValue(joinedUserID, out var latestUserCache))
                     {
-                        var discrepancy = latestUserCache.JoinedAt - joinedUser.JoinedAt;
-
-                        currentText = $"{joinedUser.Username} | JoinedAt discrepancy: {discrepancy.Ticks} ticks, {discrepancy.Microseconds} μs\n";
+                        currentText = CalculateDiscrepancy(latestUserCache, joinedUser);
                     }
 
                     else
@@ -84,7 +94,12 @@ namespace NetCordJoinedAtBugRepro.HostedServices
             JoinCache[user.Id] = user;
         }
         
-        public void RemoveJoiningUser(User user)
+        public bool TryGetJoinedUser(ulong userID, out GuildUser user)
+        {
+            return JoinCache.TryGetValue(userID, out user);
+        }
+        
+        public void RemoveJoinedUser(User user)
         {
             JoinCache.Remove(user.Id, out _);
         }

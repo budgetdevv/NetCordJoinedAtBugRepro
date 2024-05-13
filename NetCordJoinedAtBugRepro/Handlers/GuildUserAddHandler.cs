@@ -1,4 +1,7 @@
-﻿using NetCord;
+﻿using System;
+using System.Threading.Tasks;
+
+using NetCord;
 using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
 
