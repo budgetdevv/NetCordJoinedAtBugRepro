@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Configuration file
 appsettings.json.DS_Store
+appsettings.json
