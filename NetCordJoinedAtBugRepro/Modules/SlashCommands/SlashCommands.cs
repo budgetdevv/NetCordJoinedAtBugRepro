@@ -3,12 +3,12 @@ using NetCord.Gateway;
 using NetCord.Rest;
 using NetCord.Services.ApplicationCommands;
 
-namespace NetCordJoinedAtBugRepro.Modules.SlashCommands;
-
-public class SlashCommands(GatewayClient client) : ApplicationCommandModule<SlashCommandContext>
+namespace NetCordJoinedAtBugRepro.Modules.SlashCommands
 {
-    [SlashCommand("ping", "Get bot latency", DefaultGuildUserPermissions = Permissions.Administrator)]
-    public Task<InteractionCallback> RemoveReputationAsync()
+    public class SlashCommands(GatewayClient client) : ApplicationCommandModule<SlashCommandContext>
+    {
+        [SlashCommand("ping", "Get bot latency", DefaultGuildUserPermissions = Permissions.Administrator)]
+        public Task<InteractionCallback> RemoveReputationAsync()
     {
         var latency = client.Latency;
         
@@ -16,5 +16,6 @@ public class SlashCommands(GatewayClient client) : ApplicationCommandModule<Slas
         {
             Content = $"{latency.TotalMilliseconds} ms!",
         }));
+    }
     }
 }

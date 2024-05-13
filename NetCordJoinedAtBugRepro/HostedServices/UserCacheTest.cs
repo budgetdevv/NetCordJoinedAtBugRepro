@@ -31,9 +31,15 @@ namespace NetCordJoinedAtBugRepro.HostedServices
             
             while (!TestLoopCancellation.IsCancellationRequested)
             {
-                stringBuilder.Append($"Running iteration {iterationNumber++}");
+                stringBuilder.Append($"Running iteration {iterationNumber++}\n");
                 
-                var (_, guild) = client.Cache.Guilds.Single();
+                var (_, guild) = client.Cache.Guilds.SingleOrDefault();
+
+                if (guild == null)
+                {
+                    stringBuilder.Append("No guild, skipping iteration...");
+                    goto Print;
+                }
 
                 foreach (var (joinedUserID, joinedUser) in JoinCache)
                 {
@@ -47,6 +53,7 @@ namespace NetCordJoinedAtBugRepro.HostedServices
                     stringBuilder.Append($"{joinedUser.Username} | JoinedAt discrepancy: {discrepancy.Ticks}\n");
                 }
 
+                Print:
                 Console.WriteLine(stringBuilder.ToString());
 
                 stringBuilder.Clear();
@@ -60,7 +67,7 @@ namespace NetCordJoinedAtBugRepro.HostedServices
             JoinCache[user.Id] = user;
         }
         
-        public void RemoveJoiningUser(GuildUser user)
+        public void RemoveJoiningUser(User user)
         {
             JoinCache.Remove(user.Id, out _);
         }

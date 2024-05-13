@@ -1,5 +1,4 @@
-﻿using NetCord;
-using NetCord.Gateway;
+﻿using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
 
 using NetCordJoinedAtBugRepro.HostedServices;
@@ -7,11 +6,11 @@ using NetCordJoinedAtBugRepro.HostedServices;
 namespace NetCordJoinedAtBugRepro.Handlers
 {
     [GatewayEvent(nameof(GatewayClient.GuildUserRemove))]
-    internal class GuildUserRemoveHandler(UserCacheTest userCacheTest): IGatewayEventHandler<GuildUser>
+    internal class GuildUserRemoveHandler(UserCacheTest userCacheTest): IGatewayEventHandler<GuildUserRemoveEventArgs>
     {
-        public ValueTask HandleAsync(GuildUser user)
+        public ValueTask HandleAsync(GuildUserRemoveEventArgs args)
         {
-            userCacheTest.RemoveJoiningUser(user);
+            userCacheTest.RemoveJoiningUser(args.User);
             return ValueTask.CompletedTask;
         }
     }

@@ -33,7 +33,7 @@ builder.Services
     .AddInteractionService<ModalSubmitInteraction, ModalSubmitInteractionContext>(OptionsHelper.ConfigureInteractionService)
     .AddHttpClient()
     .AddGatewayEventHandlers(typeof(Program).Assembly)
-    .AddHostedService<UserCacheTest>()
+    .AddHostedSingletonService<UserCacheTest>()
     .AddOptions<Configuration>()
     .BindConfiguration(string.Empty);;
 

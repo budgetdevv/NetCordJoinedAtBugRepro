@@ -11,22 +11,22 @@ using NetCord.Services;
 using NetCord.Services.ApplicationCommands;
 using NetCord.Services.Interactions;
 
-namespace NetCordJoinedAtBugRepro.Helpers;
-
-internal static class OptionsHelper
+namespace NetCordJoinedAtBugRepro.Helpers
 {
-    public static void ConfigureApplicationCommandService<TInteraction, TContext>(ApplicationCommandServiceOptions<TInteraction, TContext> options) where TInteraction : ApplicationCommandInteraction where TContext : IApplicationCommandContext
+    internal static class OptionsHelper
+    {
+        public static void ConfigureApplicationCommandService<TInteraction, TContext>(ApplicationCommandServiceOptions<TInteraction, TContext> options) where TInteraction : ApplicationCommandInteraction where TContext : IApplicationCommandContext
     {
         options.Configuration = ApplicationCommandServiceConfiguration<TContext>.Default with { DefaultDMPermission = false };
         options.HandleResultAsync = HandleResultAsync;
     }
 
-    public static void ConfigureInteractionService<TInteraction, TContext>(InteractionServiceOptions<TInteraction, TContext> options) where TInteraction : Interaction where TContext : IInteractionContext
+        public static void ConfigureInteractionService<TInteraction, TContext>(InteractionServiceOptions<TInteraction, TContext> options) where TInteraction : Interaction where TContext : IInteractionContext
     {
         options.HandleResultAsync = HandleResultAsync;
     }
 
-    private static async ValueTask HandleResultAsync<TInteraction>(IExecutionResult result, TInteraction interaction, GatewayClient? client, ILogger logger, IServiceProvider services) where TInteraction : Interaction
+        private static async ValueTask HandleResultAsync<TInteraction>(IExecutionResult result, TInteraction interaction, GatewayClient? client, ILogger logger, IServiceProvider services) where TInteraction : Interaction
     {
         if (result is not IFailResult failResult)
             return;
@@ -48,5 +48,6 @@ internal static class OptionsHelper
         catch
         {
         }
+    }
     }
 }
